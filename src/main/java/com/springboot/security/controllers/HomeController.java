@@ -11,7 +11,7 @@ class HomeController {
     
     @GetMapping("/")
     public String home() {
-        return ("<h1>Welcome</h1>");
+        return ("home");
     }
 
     @GetMapping({"/user", "/home"})
