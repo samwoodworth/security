@@ -14,13 +14,13 @@ class HomeController {
         return ("home");
     }
 
-    @GetMapping({"/user", "/home"})
-    public String user() {
-        return "home";
+    @GetMapping({"/login"})
+    public String login() {
+        return "login";
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return ("<h1>Welcome Admin</h1>");
+    @GetMapping({"/user", "/admin"})
+    public String loggedin() {
+        return "loggedin";
     }
 }
