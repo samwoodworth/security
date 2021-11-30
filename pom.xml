@@ -12,7 +12,7 @@
 	<artifactId>security</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>security</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Security application</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -53,11 +53,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jasper</artifactId>
 			<version>9.0.54</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>

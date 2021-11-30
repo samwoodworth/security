@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin").hasAuthority("ADMIN")
                 .antMatchers("/user").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .and()
                 .formLogin()
                     .loginPage("/login")
@@ -34,6 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()
                     .permitAll();
+
+                http.csrf().disable();
+                http.headers().frameOptions().disable();
     }
     
     @Bean
