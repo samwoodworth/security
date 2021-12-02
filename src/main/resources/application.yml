@@ -5,6 +5,8 @@ spring:
   datasource:
     platform: h2
     url: 'jdbc:h2:mem:sam'
+  application:
+    name: SECURITY-SERVICE
 
   jpa:
     defer-datasource-initialization: 'true'
