@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import static com.springboot.security.security.Authenticated.isAuthenticated;
+
 public class MyUserDetails implements UserDetails {
 
     private String userName;
@@ -32,6 +34,7 @@ public class MyUserDetails implements UserDetails {
         System.out.println("Password: " + this.password);
         System.out.println("Active: " + this.active);
         System.out.println("Authorities: " + this.authorities);
+        //System.out.println("Authenticated: " + isAuthenticated());
 
     }
 
