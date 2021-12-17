@@ -15,8 +15,11 @@ class HomeController {
 
     @GetMapping("/")
     public String home(final Principal principal) {
-        //System.out.println(isAuthenticated());
-        System.out.println("Username: " + principal.getName());
+        System.out.println(isAuthenticated());
+/*        if (principal.getName() == null)
+            System.out.println("Username: null");
+        else */
+        //System.out.println("Username: " + principal.getName());
         return "home";
     }
 
@@ -28,6 +31,7 @@ class HomeController {
     @GetMapping({"/user", "/admin"})
     public String loggedin(final Principal principal) {
         System.out.println("Username: " + principal.getName());
+        System.out.println(isAuthenticated());
         return "loggedin";
     }
 }
