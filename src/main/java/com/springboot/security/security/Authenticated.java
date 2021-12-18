@@ -7,10 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.servlet.http.HttpServletRequest;
 
 
-//Returns username for true, anon for false     Change to bool?
+//Returns true for logged in, false otherwise
 public class Authenticated {
-    public static String isAuthenticated() {
+    public static boolean isAuthenticated() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        return auth.getName();
+        if(auth.getName() == "anonymousUser")
+            return false;
+        else
+            return true;
     }
 }

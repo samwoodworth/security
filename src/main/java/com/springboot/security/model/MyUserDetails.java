@@ -30,11 +30,11 @@ public class MyUserDetails implements UserDetails {
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
                     
-        System.out.println("Username: " + this.userName);
+/*        System.out.println("Username: " + this.userName);
         System.out.println("Password: " + this.password);
         System.out.println("Active: " + this.active);
         System.out.println("Authorities: " + this.authorities);
-        //System.out.println("Authenticated: " + isAuthenticated());
+        System.out.println("Authenticated: " + isAuthenticated()); */
 
     }
 
