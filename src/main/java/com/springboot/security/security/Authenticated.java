@@ -7,18 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.servlet.http.HttpServletRequest;
 
 
-//Don't need this class
+//Returns username for true, anon for false     Change to bool?
 public class Authenticated {
     public static String isAuthenticated() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return "sdf";
-        //System.out.println(isAuthenticated());
- /*       if (principal instanceof UserDetails) {
-            return (UserDetails)principal).getUsername();
-        } else {
-            return principal.toString();
-        }*/
-        /*final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return null != authentication && !("anonymousUser").equals(authentication.getName());*/
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        return auth.getName();
     }
 }
