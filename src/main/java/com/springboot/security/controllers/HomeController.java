@@ -12,19 +12,19 @@ class HomeController {
 
     @GetMapping("/")
     public String home(final Principal principal) {
-        System.out.println("Username: " + isAuthenticated());
+        System.out.println("Username at home: " + isAuthenticated());
         return "home";
     }
 
     @GetMapping({"/login"})
     public String login(final Principal principal) {
-        System.out.println("Username: " + isAuthenticated());
+        System.out.println("Username at login: " + isAuthenticated());
         return "login";
     }
 
-    @GetMapping({"/user", "/admin"})
+    @GetMapping({"/home"})
     public String loggedin(final Principal principal) {
-        System.out.println("Username: " + isAuthenticated());
+        System.out.println("Username after logged in: " + isAuthenticated());
         return "loggedin";
     }
 }
