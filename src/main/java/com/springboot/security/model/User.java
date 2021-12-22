@@ -13,6 +13,17 @@ public class User {
     private String password;
     private boolean active;
     private String roles;
+    private boolean loggedIn;
+
+    public User() {}
+
+    public User(String userName, String password, boolean active, String roles, boolean loggedIn) {
+        this.userName = userName;
+        this.password = password;
+        this.active = active;
+        this.roles = roles;
+        this.loggedIn = loggedIn;
+    }
 
     public String getUserName() {
         return userName;
@@ -38,4 +49,18 @@ public class User {
     public void setRoles(String roles) {
         this.roles = roles;
     }
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    @Override
+    public String toString() {
+        return "User [active=" + active + ", loggedIn=" + loggedIn + ", password=" + password + ", roles=" + roles
+                + ", userName=" + userName + "]";
+    }
+
+    
 }
