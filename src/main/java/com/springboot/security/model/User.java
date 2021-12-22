@@ -61,6 +61,4 @@ public class User {
         return "User [active=" + active + ", loggedIn=" + loggedIn + ", password=" + password + ", roles=" + roles
                 + ", userName=" + userName + "]";
     }
-
-    
 }

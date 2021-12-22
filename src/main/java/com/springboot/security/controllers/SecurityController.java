@@ -3,13 +3,12 @@ package com.springboot.security.controllers;
 import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import static com.springboot.security.security.Authenticated.isAuthenticated;
 
 @Controller
-class HomeController {
+class SecurityController {
 
     @RequestMapping("/")
     public String home(final Principal principal) {
