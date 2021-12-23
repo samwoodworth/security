@@ -14,6 +14,6 @@ public class SecurityRestController {
 
     @GetMapping("/get_auth")
     boolean get_auth(@PathVariable )
-
+        User foundUser = repo.
 
 }
