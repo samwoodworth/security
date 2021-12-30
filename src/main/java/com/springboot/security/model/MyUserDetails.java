@@ -9,8 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import static com.springboot.security.security.Authenticated.isAuthenticated;
-
 public class MyUserDetails implements UserDetails {
 
     private String userName;

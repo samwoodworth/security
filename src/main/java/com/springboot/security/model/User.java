@@ -9,6 +9,8 @@ import javax.persistence.Id;
 public class User {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
     private String userName;
     private String password;
     private boolean active;
@@ -61,6 +63,4 @@ public class User {
         return "User [active=" + active + ", loggedIn=" + loggedIn + ", password=" + password + ", roles=" + roles
                 + ", userName=" + userName + "]";
     }
-
-    
 }
