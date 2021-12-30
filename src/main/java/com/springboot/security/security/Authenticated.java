@@ -9,12 +9,12 @@ public class Authenticated {
 
     //Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
 
-    public static boolean isAuth() {
+    public static String isAuth() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
         if(auth.getName() != "anonymousUser")
-            return true;
+            return "Authorized";
         else    
-            return false; 
+            return "Unauthorized"; 
         }
 
     public static String getUsername() {

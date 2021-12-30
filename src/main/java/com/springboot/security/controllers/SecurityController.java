@@ -44,7 +44,7 @@ class SecurityController {
     }
 
     @RequestMapping("/getAuth")
-    public @ResponseBody boolean getAuth() {
+    public @ResponseBody String getAuth() {
         System.out.println("Username at /getAuth: " + auth.getUsername());
         System.out.println("Is logged in at /getAuth: " + auth.isAuth());
         System.out.println();
