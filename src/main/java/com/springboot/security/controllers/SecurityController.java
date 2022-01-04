@@ -20,50 +20,81 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 class SecurityController {
 
-    //String username = Authenticated.getUsername();
-
     private final UserRepo repo;
+
+    String userName = "anonymousUser";
 
     SecurityController(UserRepo repo) {
         this.repo = repo;
     }
 
+    public String userNameCheck(String newUserName) {
+        System.out.println("userName in userNameCheck is: " + userName);
+        System.out.println("newUserName in userNameCheck is: " + newUserName);
+
+        if (userName == newUserName) {
+            System.out.println("Both usernames are equal.");
+            return userName;
+        }
+        else {
+            userName = newUserName;
+            System.out.println("New userName in else of userNameCheck is: " + userName);
+            return userName;
+        }
+    }
+
     @RequestMapping("/")
     public String home() {
-        String userName = Authenticated.getUsername();
-        System.out.println("Username at /: " + userName);
-        System.out.println();
-        
+        String newUserName = Authenticated.getUsername();
+        System.out.println("Username at /: " + newUserName);
+
+        if(newUserName != "anonymousUser") {
+            User foundUser = repo.findByUserName(newUserName)
+                    .orElseThrow(() -> new UserNotFoundException(newUserName));
+
+            foundUser.setLoggedIn(Authenticated.isAuth());
+            repo.save(foundUser);
+        }
         return "home";
     }
 
     @RequestMapping("/login")
     public String login() {
-        String userName = Authenticated.getUsername();
-        System.out.println("Username at /login: " + userName);
-        System.out.println();
-        
+        String newUserName = Authenticated.getUsername();
+        System.out.println("Username at /login: " + newUserName);
+
+        if(newUserName != "anonymousUser") {
+            User foundUser = repo.findByUserName(newUserName)
+                    .orElseThrow(() -> new UserNotFoundException(newUserName));
+
+            foundUser.setLoggedIn(Authenticated.isAuth());
+            repo.save(foundUser);
+
+        }
         return "login";
     }
 
     @RequestMapping("/home")
     public String loggedin() {
-        String userName = Authenticated.getUsername();
-        System.out.println("Username at /home: " + userName);
-        System.out.println();
+        String newUserName = Authenticated.getUsername();
 
+        if(newUserName != "anonymousUser") {
+            User foundUser = repo.findByUserName(newUserName)
+                    .orElseThrow(() -> new UserNotFoundException(newUserName));
+            foundUser.setLoggedIn(Authenticated.isAuth());
+            repo.save(foundUser);
+
+        }
         return "loggedin";
     }
 
     @GetMapping("/getAuth")
-    public @ResponseBody String getAuth(@RequestParam String user) {
+    public @ResponseBody String  getAuth(@RequestParam String user) {
 
         User foundUser = repo.findByUserName(user)
             .orElseThrow(() -> new UserNotFoundException(user));
-
-        System.out.println("Is user logged in: " + foundUser.isLoggedIn());
-        
-        System.out.println("\nUsername at /getAuth: " + user);
-        return user;
+        System.out.println("Get Auth logged in status: " + foundUser.isLoggedIn());
+        String isLoggedInStr = String.valueOf(foundUser.isLoggedIn());
+        return isLoggedInStr;
     }
 }

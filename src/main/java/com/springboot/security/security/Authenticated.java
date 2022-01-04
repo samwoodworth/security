@@ -1,5 +1,6 @@
 package com.springboot.security.security;
 
+import com.springboot.security.repo.UserRepo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.springboot.security.model.User;
@@ -9,10 +10,12 @@ import com.springboot.security.model.User;
 public class Authenticated {
 
     //Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+    UserRepo userRepo;
+
 
     public static boolean isAuth() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        if(auth.getName() != "anonymousUser") {
+        String userName = getUsername();
+        if(userName != "anonymousUser") {
             
             return true;
         }
@@ -22,7 +25,7 @@ public class Authenticated {
         }
 
     public static String getUsername() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        return auth.getName();
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userName;
     }
 }
