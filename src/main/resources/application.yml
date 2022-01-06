@@ -5,6 +5,8 @@ spring:
   datasource:
     platform: h2
     url: 'jdbc:h2:mem:sam'
+    username: user
+    password: pass
   application:
     name: SECURITY-SERVICE
 
