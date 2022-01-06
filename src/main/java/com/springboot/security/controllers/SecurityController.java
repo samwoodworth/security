@@ -23,6 +23,7 @@ class SecurityController {
     private final UserRepo repo;
     boolean loggedIn = false;
     String userName = "anonymousUser";
+    User foundUser = new User();
 
     SecurityController(UserRepo repo) {
         this.repo = repo;
@@ -49,11 +50,18 @@ class SecurityController {
         System.out.println("Username at /: " + newUserName);
 
         if(!newUserName.equals("anonymousUser")) {
-            User foundUser = repo.findByUserName(newUserName)
+            foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
 
-            foundUser.setLoggedIn(Authenticated.isAuth());
+            loggedIn = Authenticated.isAuth();
+            foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
+            System.out.println("After repo save");
+        } else {
+            loggedIn = false;
+            foundUser.setLoggedIn(false);
+            repo.save(foundUser);
+            System.out.println("Else. Setting logged in to false.");
         }
         return "home";
     }
@@ -64,12 +72,17 @@ class SecurityController {
         System.out.println("Username at /login: " + newUserName);
 
         if(!newUserName.equals("anonymousUser")) {
-            User foundUser = repo.findByUserName(newUserName)
+            foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
-
-            foundUser.setLoggedIn(Authenticated.isAuth());
+            loggedIn = Authenticated.isAuth();
+            foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
             System.out.println("After repo save");
+        } else {
+            loggedIn = false;
+            foundUser.setLoggedIn(false);
+            repo.save(foundUser);
+            System.out.println("Else. Setting logged in to false.");
         }
         return "login";
     }
@@ -80,10 +93,17 @@ class SecurityController {
         System.out.println("Username at /home: " + newUserName);
 
         if(!newUserName.equals("anonymousUser")) {
-            User foundUser = repo.findByUserName(newUserName)
+            foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
-            foundUser.setLoggedIn(Authenticated.isAuth());
+            loggedIn = Authenticated.isAuth();
+            foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
+            System.out.println("After repo save");
+        } else {
+            loggedIn = false;
+            foundUser.setLoggedIn(false);
+            repo.save(foundUser);
+            System.out.println("Else. Setting logged in to false.");
         }
         return "loggedin";
     }
@@ -93,8 +113,9 @@ class SecurityController {
 
         User foundUser = repo.findByUserName(user)
             .orElseThrow(() -> new UserNotFoundException(user));
-        System.out.println("Get Auth logged in status: " + foundUser.isLoggedIn());
-        String isLoggedInStr = String.valueOf(foundUser.isLoggedIn());
-        return isLoggedInStr;
+
+        System.out.println("Get Auth logged in status for user: " + foundUser.getUserName() + " is: " + foundUser.isLoggedIn());
+        return String.valueOf(foundUser.isLoggedIn());
+
     }
 }
