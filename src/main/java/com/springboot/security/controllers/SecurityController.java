@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 class SecurityController {
 
     private final UserRepo repo;
-
+    boolean loggedIn = false;
     String userName = "anonymousUser";
 
     SecurityController(UserRepo repo) {
@@ -32,7 +32,7 @@ class SecurityController {
         System.out.println("userName in userNameCheck is: " + userName);
         System.out.println("newUserName in userNameCheck is: " + newUserName);
 
-        if (userName == newUserName) {
+        if (userName.equals(newUserName)) {
             System.out.println("Both usernames are equal.");
             return userName;
         }
@@ -48,7 +48,7 @@ class SecurityController {
         String newUserName = Authenticated.getUsername();
         System.out.println("Username at /: " + newUserName);
 
-        if(newUserName != "anonymousUser") {
+        if(!newUserName.equals("anonymousUser")) {
             User foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
 
@@ -63,13 +63,13 @@ class SecurityController {
         String newUserName = Authenticated.getUsername();
         System.out.println("Username at /login: " + newUserName);
 
-        if(newUserName != "anonymousUser") {
+        if(!newUserName.equals("anonymousUser")) {
             User foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
 
             foundUser.setLoggedIn(Authenticated.isAuth());
             repo.save(foundUser);
-
+            System.out.println("After repo save");
         }
         return "login";
     }
@@ -77,13 +77,13 @@ class SecurityController {
     @RequestMapping("/home")
     public String loggedin() {
         String newUserName = Authenticated.getUsername();
+        System.out.println("Username at /home: " + newUserName);
 
-        if(newUserName != "anonymousUser") {
+        if(!newUserName.equals("anonymousUser")) {
             User foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
             foundUser.setLoggedIn(Authenticated.isAuth());
             repo.save(foundUser);
-
         }
         return "loggedin";
     }
