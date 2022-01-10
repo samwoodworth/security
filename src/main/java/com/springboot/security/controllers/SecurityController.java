@@ -16,6 +16,7 @@ class SecurityController {
 
     private final UserRepo repo;
     boolean loggedIn = false;
+    String token;
 
     //Creates extra, null user
     User foundUser = new User();
@@ -25,9 +26,11 @@ class SecurityController {
     }
 
     @RequestMapping("/")
-    public String home() {
+    public String home(@RequestParam(required = false) String newToken) {
         String newUserName = Authenticated.getUsername();
-        System.out.println(newUserName);
+        token = newToken;
+        System.out.println("Token: " + token);
+
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
@@ -47,6 +50,8 @@ class SecurityController {
     public String login() {
         String newUserName = Authenticated.getUsername();
 
+        System.out.println("Token: " + token);
+
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
@@ -64,6 +69,8 @@ class SecurityController {
     @RequestMapping("/home")
     public String loggedin() {
         String newUserName = Authenticated.getUsername();
+
+        System.out.println("Token: " + token);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
