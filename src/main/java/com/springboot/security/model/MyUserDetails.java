@@ -27,12 +27,6 @@ public class MyUserDetails implements UserDetails {
         this.authorities = Arrays.stream(user.getRoles().split(","))
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
-                    
-/*        System.out.println("Username: " + this.userName);
-        System.out.println("Password: " + this.password);
-        System.out.println("Active: " + this.active);
-        System.out.println("Authorities: " + this.authorities);
-        System.out.println("Authenticated: " + isAuthenticated()); */
 
     }
 
