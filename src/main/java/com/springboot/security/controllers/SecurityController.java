@@ -92,12 +92,21 @@ class SecurityController {
     @GetMapping("/getAuth")
     public @ResponseBody String getAuth(@RequestParam(required = false) String user) {
 
-/*        User foundUser = repo.getByUserName(user);
-        System.out.println(foundUser.getUserName()); */
+        boolean userNameExists = repo.existsByUserName(user);
+        System.out.println("Exists by username: " + userNameExists);
+        System.out.println("Token: " + token);
 
-        boolean wasitfound = repo.existsByUserName(user);
-        System.out.println("Does this work: " + wasitfound);
-
+        if (token != null) {
+        System.out.println("Returning true from token: " + token);
+        return "true";
+        } else if (userNameExists) {
+            User foundUser = repo.findByUserName(user)
+                    .orElseThrow(() -> new UserNotFoundException(user));
+            System.out.println("Found user: " + foundUser.getUserName());
+            System.out.println("Returning: " + foundUser.isLoggedIn());
+            return String.valueOf(foundUser.isLoggedIn());
+        } else
+            return "false";
 /*         User foundUser = repo.findByUserName(user)
             .orElseThrow(() -> new UserNotFoundException(user));
         System.out.println("Found user: " + foundUser.getUserName());
@@ -107,6 +116,6 @@ class SecurityController {
 
             return "true";
         } else */
-            return "false";
+            //return "false";
     }
 }
