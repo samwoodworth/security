@@ -19,7 +19,7 @@ class SecurityController {
     boolean loggedIn = false;
     String token;
 
-    //Creates extra, null user
+    //Creates extra, null user in db
     //@Autowired
     User foundUser = new User();
 
@@ -36,7 +36,6 @@ class SecurityController {
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
                 .orElseThrow(() -> new UserNotFoundException(newUserName));
-
             loggedIn = Authenticated.isAuth();
             foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
@@ -49,9 +48,9 @@ class SecurityController {
     }
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
-
+        token = newToken;
         System.out.println("Token: " + token);
 
         if(!newUserName.equals("anonymousUser")) {
@@ -69,15 +68,15 @@ class SecurityController {
     }
 
     @RequestMapping("/home")
-    public String loggedin() {
+    public String loggedin(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
-
+        token = newToken;
         System.out.println("Token: " + token);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
                 .orElseThrow(() -> new UserNotFoundException(newUserName));
-            loggedIn = Authenticated.isAuth();
+            loggedIn = Authenticated.isAuth();  //Get rid of this line and just put true in next line
             foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
         } else {
@@ -88,34 +87,18 @@ class SecurityController {
         return "loggedin";
     }
 
-    //Maker user optional
     @GetMapping("/getAuth")
     public @ResponseBody String getAuth(@RequestParam(required = false) String user) {
 
         boolean userNameExists = repo.existsByUserName(user);
-        System.out.println("Exists by username: " + userNameExists);
-        System.out.println("Token: " + token);
 
-        if (token != null) {
-        System.out.println("Returning true from token: " + token);
-        return "true";
-        } else if (userNameExists) {
+        if (token != null)
+            return "true";
+        else if (userNameExists) {
             User foundUser = repo.findByUserName(user)
                     .orElseThrow(() -> new UserNotFoundException(user));
-            System.out.println("Found user: " + foundUser.getUserName());
-            System.out.println("Returning: " + foundUser.isLoggedIn());
             return String.valueOf(foundUser.isLoggedIn());
         } else
             return "false";
-/*         User foundUser = repo.findByUserName(user)
-            .orElseThrow(() -> new UserNotFoundException(user));
-        System.out.println("Found user: " + foundUser.getUserName());
-        if(!token.equals(null)){
-            return "true";
-        } else if (!String.valueOf(foundUser.isLoggedIn()).equals("false")) {
-
-            return "true";
-        } else */
-            //return "false";
     }
 }
