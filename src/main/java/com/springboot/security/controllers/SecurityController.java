@@ -40,7 +40,6 @@ class SecurityController {
             foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
         } else {
-            loggedIn = false;
             foundUser.setLoggedIn(false);
             repo.save(foundUser);
         }
@@ -60,7 +59,6 @@ class SecurityController {
             foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
         } else {
-            loggedIn = false;
             foundUser.setLoggedIn(false);
             repo.save(foundUser);
         }
@@ -76,17 +74,17 @@ class SecurityController {
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
                 .orElseThrow(() -> new UserNotFoundException(newUserName));
-            loggedIn = Authenticated.isAuth();  //Get rid of this line and just put true in next line
+            loggedIn = Authenticated.isAuth();
             foundUser.setLoggedIn(loggedIn);
             repo.save(foundUser);
         } else {
-            loggedIn = false;
             foundUser.setLoggedIn(false);
             repo.save(foundUser);
         }
         return "loggedin";
     }
 
+    //Return boolean
     @GetMapping("/getAuth")
     public @ResponseBody String getAuth(@RequestParam(required = false) String user) {
 
