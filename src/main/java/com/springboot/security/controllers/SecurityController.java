@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 class SecurityController {
 
-    private final UserRepo repo;
+    @Autowired
+    UserRepo repo;
     boolean loggedIn = false;
     String token;
 
@@ -31,7 +32,6 @@ class SecurityController {
     public String home(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
-        System.out.println("Token: " + token);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -50,7 +50,6 @@ class SecurityController {
     public String login(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
-        System.out.println("Token: " + token);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -69,7 +68,6 @@ class SecurityController {
     public String loggedin(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
-        System.out.println("Token: " + token);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
