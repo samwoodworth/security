@@ -3,8 +3,6 @@ package com.springboot.security.controllers;
 import com.springboot.security.repo.UserRepo;
 import com.springboot.security.security.Authenticated;
 
-import java.security.Principal;
-
 import com.springboot.security.exceptions.UserNotFoundException;
 import com.springboot.security.model.User;
 
