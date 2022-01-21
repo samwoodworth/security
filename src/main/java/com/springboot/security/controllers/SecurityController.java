@@ -33,10 +33,8 @@ class SecurityController {
 
     @RequestMapping("/")
     public String home(@RequestParam(required = false, name = "token") String newToken) {
-        System.out.println("GetUsername is: " + Authenticated.getUsername());
         String newUserName = Authenticated.getUsername();
         token = newToken;
-        System.out.println("Found user at / is: " + newUserName);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -52,10 +50,9 @@ class SecurityController {
     }
 
     @RequestMapping("/login")
-    public String login(@RequestParam(required = false, name = "token") String newToken, Principal principal) {
+    public String login(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
-        System.out.println("Found user at login is: " + newUserName);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -74,7 +71,6 @@ class SecurityController {
     public String loggedin(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
-        System.out.println("Found user at home is: " + newUserName);
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -95,19 +91,13 @@ class SecurityController {
 
         boolean userNameExists = repo.existsByUserName(user);
 
-        if (token != null) {
-            System.out.println("Token");
+        if (token != null)
             return "true";
-        }
         else if (userNameExists) {
-            System.out.println("Username exists");
             User foundUser = repo.findByUserName(user)
                     .orElseThrow(() -> new UserNotFoundException(user));
-            System.out.println("Found user is logged in: " + foundUser.isLoggedIn());
             return String.valueOf(foundUser.isLoggedIn());
-        } else {
-            System.out.println("Else");
+        } else
             return "false";
-        }
     }
 }
