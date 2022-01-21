@@ -6,6 +6,7 @@
     </head>
     <body>
         <h1 th:inline="text">Logged in as: [[${#httpServletRequest.remoteUser}]]</h1>
+        <p>Click <a href="http://localhost:8081/get_issue?id=1&user=sam">here</a> to get issues</p> <!--Get id and user from controller? another html page?-->
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
