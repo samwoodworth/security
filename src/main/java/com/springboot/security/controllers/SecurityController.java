@@ -39,11 +39,9 @@ class SecurityController {
                 .orElseThrow(() -> new UserNotFoundException(newUserName));
             loggedIn = Authenticated.isAuth();
             foundUser.setLoggedIn(loggedIn);
-            repo.save(foundUser);
-        } else {
+        } else
             foundUser.setLoggedIn(false);
-            repo.save(foundUser);
-        }
+        repo.save(foundUser);
         return "home";
     }
 
@@ -57,11 +55,9 @@ class SecurityController {
                     .orElseThrow(() -> new UserNotFoundException(newUserName));
             loggedIn = Authenticated.isAuth();
             foundUser.setLoggedIn(loggedIn);
-            repo.save(foundUser);
-        } else {
+        } else
             foundUser.setLoggedIn(false);
-            repo.save(foundUser);
-        }
+        repo.save(foundUser);
         return "login";
     }
 
