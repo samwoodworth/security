@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 class SecurityController {
@@ -30,7 +31,7 @@ class SecurityController {
     }
 
     @RequestMapping("/")
-    public String home(@RequestParam(required = false, name = "token") String newToken) {
+    public ModelAndView home(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
 
@@ -41,12 +42,13 @@ class SecurityController {
             foundUser.setLoggedIn(loggedIn);
         } else
             foundUser.setLoggedIn(false);
+
         repo.save(foundUser);
-        return "home";
+        return new ModelAndView("home");
     }
 
     @RequestMapping("/login")
-    public String login(@RequestParam(required = false, name = "token") String newToken) {
+    public ModelAndView login(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
         token = newToken;
 
@@ -57,8 +59,9 @@ class SecurityController {
             foundUser.setLoggedIn(loggedIn);
         } else
             foundUser.setLoggedIn(false);
+        
         repo.save(foundUser);
-        return "login";
+        return new ModelAndView("login");
     }
 
     @RequestMapping("/home")
@@ -71,23 +74,21 @@ class SecurityController {
                 .orElseThrow(() -> new UserNotFoundException(newUserName));
             loggedIn = Authenticated.isAuth();
             foundUser.setLoggedIn(loggedIn);
-            repo.save(foundUser);
-        } else {
+        } else
             foundUser.setLoggedIn(false);
-            repo.save(foundUser);
-        }
+
+        repo.save(foundUser);
         return "loggedin";
     }
 
-    //Return boolean
+    //Return boolean?
     @GetMapping("/getAuth")
-    public @ResponseBody String getAuth(@RequestParam(required = false) String user) {
-
-        boolean userNameExists = repo.existsByUserName(user);
+    @ResponseBody
+    public String getAuth(@RequestParam(required = false) String user) {
 
         if (token != null)
             return "true";
-        else if (userNameExists) {
+        else if (repo.existsByUserName(user)) {
             User foundUser = repo.findByUserName(user)
                     .orElseThrow(() -> new UserNotFoundException(user));
             return String.valueOf(foundUser.isLoggedIn());
