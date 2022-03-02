@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 class SecurityController {
 
@@ -84,7 +87,11 @@ class SecurityController {
     //Return boolean?
     @GetMapping("/getAuth")
     @ResponseBody
-    public String getAuth(@RequestParam(required = false) String user) {
+    public String getAuth(HttpServletResponse response, @RequestParam(required = false) String user) {
+
+        Cookie cookie = new Cookie("Chichi", "MeLoveHer");
+
+        response.addCookie(cookie);
 
         if (token != null)
             return "true";
