@@ -70,6 +70,7 @@ class SecurityController {
     @RequestMapping("/home")
     public String loggedin(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
+        System.out.println("Username at loggedin: " + newUserName);
         token = newToken;
 
         if(!newUserName.equals("anonymousUser")) {
@@ -87,15 +88,24 @@ class SecurityController {
     //Return boolean?
     @GetMapping("/getAuth")
     @ResponseBody
-    public String getAuth(HttpServletResponse response, @RequestParam(required = false) String user) {
+    public String getAuth(HttpServletResponse response) {
 
-        Cookie cookie1 = new Cookie("Cookie1", "Cookie1");
-        Cookie cookie2 = new Cookie("Cookie2", "Cookie2");
+        Cookie cookie = new Cookie("Cookie1", "Cookie1");
+        response.addCookie(cookie);
 
-        response.addCookie(cookie1);
-        response.addCookie(cookie2);
+        System.out.println("Is authenticated: " + Authenticated.isAuth());
+        System.out.println("Username is: " + Authenticated.getUsername());
 
         if (token != null)
+            return "true";
+        else if (Authenticated.isAuth()) {
+            Cookie username = new Cookie("username", Authenticated.getUsername()); //Add class variable to login and/or loggedin to assign and add here
+            response.addCookie(username);
+            return "true";
+        } else
+            return "false";
+
+/*        if (token != null)
             return "true";
         else if (repo.existsByUserName(user)) {
             User foundUser = repo.findByUserName(user)
@@ -103,5 +113,6 @@ class SecurityController {
             return String.valueOf(foundUser.isLoggedIn());
         } else
             return "false";
+    }*/
     }
 }
