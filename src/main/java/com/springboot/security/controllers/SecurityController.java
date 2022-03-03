@@ -89,9 +89,11 @@ class SecurityController {
     @ResponseBody
     public String getAuth(HttpServletResponse response, @RequestParam(required = false) String user) {
 
-        Cookie cookie = new Cookie("Chichi", "MeLoveHer");
+        Cookie cookie1 = new Cookie("Cookie1", "Cookie1");
+        Cookie cookie2 = new Cookie("Cookie2", "Cookie2");
 
-        response.addCookie(cookie);
+        response.addCookie(cookie1);
+        response.addCookie(cookie2);
 
         if (token != null)
             return "true";

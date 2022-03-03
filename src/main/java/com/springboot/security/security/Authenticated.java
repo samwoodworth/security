@@ -7,8 +7,7 @@ public class Authenticated {
     //Add token check?
     public static boolean isAuth() {
         String userName = getUsername();
-        //return !userName.equals("anonymousUser");
-        return true;
+        return !userName.equals("anonymousUser");
     }
 
     public static String getUsername() {
