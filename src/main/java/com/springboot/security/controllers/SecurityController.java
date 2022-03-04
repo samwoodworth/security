@@ -90,16 +90,17 @@ class SecurityController {
     @ResponseBody
     public String getAuth(HttpServletResponse response) {
 
+        //If JSESSIONID works then remove cookies here
         Cookie cookie = new Cookie("Cookie1", "Cookie1");
         response.addCookie(cookie);
 
-        System.out.println("Is authenticated: " + Authenticated.isAuth());
-        System.out.println("Username is: " + Authenticated.getUsername());
+        System.out.println("Is authenticated: " + loggedIn);
+        System.out.println("Username is: " + foundUser.getUserName());
 
         if (token != null)
             return "true";
-        else if (Authenticated.isAuth()) {
-            Cookie username = new Cookie("username", Authenticated.getUsername()); //Add class variable to login and/or loggedin to assign and add here
+        else if (loggedIn) {
+            Cookie username = new Cookie("username", foundUser.getUserName()); //Add class variable to login and/or loggedin to assign and add here
             response.addCookie(username);
             return "true";
         } else
