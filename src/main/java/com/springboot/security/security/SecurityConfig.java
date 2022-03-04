@@ -36,8 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .permitAll()
-                .deleteCookies("JSESSIONID")
-                .deleteCookies("username"); //Need this?
+                .deleteCookies("JSESSIONID");
 
             http.csrf().disable();
             http.headers().frameOptions().disable();

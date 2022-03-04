@@ -68,9 +68,8 @@ class SecurityController {
     }
 
     @RequestMapping("/home")
-    public String loggedin(@RequestParam(required = false, name = "token") String newToken) {
+    public ModelAndView loggedin(@RequestParam(required = false, name = "token") String newToken) {
         String newUserName = Authenticated.getUsername();
-        System.out.println("Username at loggedin: " + newUserName);
         token = newToken;
 
         if(!newUserName.equals("anonymousUser")) {
@@ -82,20 +81,12 @@ class SecurityController {
             foundUser.setLoggedIn(false);
 
         repo.save(foundUser);
-        return "loggedin";
+        return new ModelAndView("loggedin");
     }
 
-    //Return boolean?
     @GetMapping("/getAuth")
     @ResponseBody
     public String getAuth(HttpServletResponse response) {
-
-        //If JSESSIONID works then remove cookies here
-        Cookie cookie = new Cookie("Cookie1", "Cookie1");
-        response.addCookie(cookie);
-
-        System.out.println("Is authenticated: " + loggedIn);
-        System.out.println("Username is: " + foundUser.getUserName());
 
         if (token != null)
             return "true";
@@ -105,15 +96,5 @@ class SecurityController {
             return "true";
         } else
             return "false";
-
-/*        if (token != null)
-            return "true";
-        else if (repo.existsByUserName(user)) {
-            User foundUser = repo.findByUserName(user)
-                    .orElseThrow(() -> new UserNotFoundException(user));
-            return String.valueOf(foundUser.isLoggedIn());
-        } else
-            return "false";
-    }*/
     }
 }
