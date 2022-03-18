@@ -4,7 +4,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Authenticated {
 
-    //Add token check?
     public static boolean isAuth() {
         String userName = getUsername();
         return !userName.equals("anonymousUser");

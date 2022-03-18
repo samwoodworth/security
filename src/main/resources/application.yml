@@ -12,6 +12,5 @@ spring:
       password: pass
   application:
     name: SECURITY-SERVICE
-
   jpa:
     defer-datasource-initialization: 'true'
