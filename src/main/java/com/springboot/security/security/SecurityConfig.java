@@ -25,14 +25,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/h2-console/**", "/getAuth").permitAll()
+                .antMatchers("/", "/h2-console/**", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/home", true)
-                .permitAll()
                 .and()
             .logout()
                 .permitAll()
