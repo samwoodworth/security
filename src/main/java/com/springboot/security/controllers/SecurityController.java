@@ -23,10 +23,6 @@ class SecurityController {
     @Autowired
     UserRepo repo;
     boolean loggedIn = false;
-    String token;
-
-    //Creates extra, null user in db
-    //@Autowired
     User foundUser = new User();
 
     SecurityController(UserRepo repo) {
@@ -34,9 +30,8 @@ class SecurityController {
     }
 
     @RequestMapping("/")
-    public ModelAndView home(@RequestParam(required = false, name = "token") String newToken) {
+    public ModelAndView home() {
         String newUserName = Authenticated.getUsername();
-        token = newToken;
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -51,9 +46,8 @@ class SecurityController {
     }
 
     @RequestMapping("/login")
-    public ModelAndView login(@RequestParam(required = false, name = "token") String newToken) {
+    public ModelAndView login() {
         String newUserName = Authenticated.getUsername();
-        token = newToken;
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -68,9 +62,8 @@ class SecurityController {
     }
 
     @RequestMapping("/home")
-    public ModelAndView loggedin(@RequestParam(required = false, name = "token") String newToken) {
+    public ModelAndView loggedin() {
         String newUserName = Authenticated.getUsername();
-        token = newToken;
 
         if(!newUserName.equals("anonymousUser")) {
             foundUser = repo.findByUserName(newUserName)
@@ -82,19 +75,5 @@ class SecurityController {
 
         repo.save(foundUser);
         return new ModelAndView("loggedin");
-    }
-
-    @GetMapping("/getAuth")
-    @ResponseBody
-    public String getAuth(HttpServletResponse response) {
-
-        if (token != null)
-            return "true";
-        else if (loggedIn) {
-            Cookie username = new Cookie("username", foundUser.getUserName()); //Add class variable to login and/or loggedin to assign and add here
-            response.addCookie(username);
-            return "true";
-        } else
-            return "false";
     }
 }
